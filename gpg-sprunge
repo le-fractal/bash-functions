@@ -1,0 +1,12 @@
+#!/bin/bash
+
+function cpaste () {
+	KEY=`pwgen -s 22 1`
+	echo "${KEY}" | gpg --batch --armor --symmetric --passphrase-fd 0 --cipher-algo aes256 -o - -c "${1}" | curl --silent -F 'sprunge=<-' http://sprunge.us
+	echo "${KEY}"
+}
+
+function dpaste () {
+	curl --silent ${1} | gpg -o - -d
+}
+

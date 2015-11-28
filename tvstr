@@ -1,0 +1,16 @@
+#!/bin/bash
+
+function tvstr () {
+	filename=$(basename "${1}")
+	extension="${filename##*.}"
+	barename="${filename%.*}"
+
+	if [ "${extension}" != "mp4" ]
+	then
+		ffmpeg -i ${filename} -vcodec copy -acodec copy ${barename}.mp4 \
+		&& gvfs-trash ${filename}
+		filename="${barename}.mp4"
+ 	fi
+	
+	airstream ${filename} -o appletv.local
+}
